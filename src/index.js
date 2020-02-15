@@ -1,5 +1,6 @@
 import head from 'lodash/head';
 import tail from 'lodash/tail';
+import last from 'lodash/last';
 import uniqWith from 'lodash/uniqWith';
 import isEqual from 'lodash/isEqual';
 
@@ -10,30 +11,23 @@ const directionMap = {
   N: (x, y, value) => ([x, y + value]),
 };
 
+const executeCommand = (currentPosition, [direction, steps], accumulator) => {
+  if (steps === 0) return [...accumulator, currentPosition];
+
+  const newPosition = directionMap[direction](currentPosition[0], currentPosition[1], 1);
+
+  return executeCommand(newPosition, [direction, steps - 1], [...accumulator, currentPosition]);
+};
+
 const robotCleaner = (commandsCount, initialPoint, route) => {
   const iter = (commands, currentPosition, path, accumulator) => {
     if (commands === 0) return uniqWith(accumulator, isEqual).length;
-    // if (commands === 0) return accumulator;
 
-    const [direction, steps] = head(path);
+    const instructions = head(path);
+    const visitedPlaces = executeCommand(currentPosition, instructions, []);
+    const lastPosition = last(visitedPlaces);
 
-    const newAccumulator = [...accumulator, currentPosition];
-
-    if (steps !== 0) {
-      return iter(
-        commands,
-        directionMap[direction](currentPosition[0], currentPosition[1], 1),
-        [[path[0][0], path[0][1] - 1], ...tail(path)],
-        newAccumulator,
-      );
-    }
-
-    return iter(
-      commands - 1,
-      directionMap[direction](currentPosition[0], currentPosition[1], 0),
-      tail(path),
-      newAccumulator,
-    );
+    return iter(commands - 1, lastPosition, tail(path), [...accumulator, ...visitedPlaces]);
   };
 
   return iter(commandsCount, initialPoint, route, []);
