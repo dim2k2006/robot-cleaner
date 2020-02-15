@@ -1,6 +1,18 @@
 import robotCleaner from '../src';
 
 describe('robotCleaner', () => {
+  test('Should clean 0 places.', () => {
+    expect(robotCleaner(0, [10, 22], [['W', 0], ['E', 0]])).toBe(0);
+  });
+
+  test('Should clean 1 places.', () => {
+    expect(robotCleaner(2, [10, 22], [['W', 0], ['E', 0]])).toBe(1);
+  });
+
+  test('Should clean 20001 places.', () => {
+    expect(robotCleaner(2, [0, 0], [['W', 100000], ['S', 100000]])).toBe(200001);
+  });
+
   test('Should clean 4 places.', () => {
     expect(robotCleaner(2, [10, 22], [['E', 2], ['N', 1]])).toBe(4);
   });
