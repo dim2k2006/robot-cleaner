@@ -1,0 +1,44 @@
+{
+  "name": "robot-cleaner",
+  "version": "1.0.0",
+  "description": "Robot Cleaner",
+  "scripts": {
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublishOnly": "npm run build",
+    "test": "jest"
+  },
+  "keywords": [
+    "robot",
+    "cleaner"
+  ],
+  "main": "dist/index.js",
+  "bin": {
+    "robot-cleaner": "dist/bin/robotCleaner.js"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "files": [
+    "dist"
+  ],
+  "author": "Dmitry Malofeev",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jest": "^22.5.1",
+    "eslint-plugin-lodash-fp": "^2.2.0-a1",
+    "jest": "^24.7.1"
+  },
+  "dependencies": {
+    "commander": "^2.20.0",
+    "lodash": "^4.17.11"
+  }
+}
