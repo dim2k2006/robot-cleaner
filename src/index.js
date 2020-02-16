@@ -1,8 +1,6 @@
 import head from 'lodash/head';
 import tail from 'lodash/tail';
 import last from 'lodash/last';
-import uniqWith from 'lodash/uniqWith';
-import isEqual from 'lodash/isEqual';
 
 const directionMap = {
   E: (x, y, value) => ([x + value, y]),
@@ -11,20 +9,33 @@ const directionMap = {
   N: (x, y, value) => ([x, y + value]),
 };
 
-const executeCommand = (currentPosition, [direction, steps], accumulator) => {
-  if (steps === 0) return [...accumulator, currentPosition];
+const executeCommand = (currentPosition, [direction, steps]) => {
+  const visitedPlaces = [currentPosition];
 
-  const newPosition = directionMap[direction](currentPosition[0], currentPosition[1], 1);
+  let i = steps;
+  let lastPosition = currentPosition;
 
-  return executeCommand(newPosition, [direction, steps - 1], [...accumulator, currentPosition]);
+  while (i > 0) {
+    const newPosition = directionMap[direction](lastPosition[0], lastPosition[1], 1);
+
+    visitedPlaces.push(newPosition);
+
+    lastPosition = newPosition;
+
+    i -= 1;
+  }
+
+  return visitedPlaces;
 };
 
 const robotCleaner = (commandsCount, initialPoint, route) => {
   const iter = (commands, currentPosition, path, accumulator) => {
-    if (commands === 0) return uniqWith(accumulator, isEqual).length;
+    if (commands === 0) return new Set(accumulator.map(([x, y]) => `${x}-${y}`)).size;
 
     const instructions = head(path);
-    const visitedPlaces = executeCommand(currentPosition, instructions, []);
+
+    const visitedPlaces = executeCommand(currentPosition, instructions);
+
     const lastPosition = last(visitedPlaces);
 
     return iter(commands - 1, lastPosition, tail(path), [...accumulator, ...visitedPlaces]);
