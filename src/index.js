@@ -1,5 +1,3 @@
-import head from 'lodash/head';
-import tail from 'lodash/tail';
 import last from 'lodash/last';
 
 const directionMap = {
@@ -28,20 +26,27 @@ const executeCommand = (currentPosition, [direction, steps]) => {
   return visitedPlaces;
 };
 
-const robotCleaner = (commandsCount, initialPoint, route) => {
-  const iter = (commands, currentPosition, path, accumulator) => {
-    if (commands === 0) return new Set(accumulator.map(([x, y]) => `${x}-${y}`)).size;
+const robotCleaner = (commands, initialPoint, route) => {
+  if (commands === 0) return 0;
 
-    const instructions = head(path);
+  let accumulator = [initialPoint];
 
-    const visitedPlaces = executeCommand(currentPosition, instructions);
+  let i = 0;
+  let lastPosition = initialPoint;
 
-    const lastPosition = last(visitedPlaces);
+  while (i < commands) {
+    const instructions = route[i];
 
-    return iter(commands - 1, lastPosition, tail(path), [...accumulator, ...visitedPlaces]);
-  };
+    const visitedPlaces = executeCommand(lastPosition, instructions);
 
-  return iter(commandsCount, initialPoint, route, []);
+    accumulator = [...accumulator, ...visitedPlaces];
+
+    lastPosition = last(visitedPlaces);
+
+    i += 1;
+  }
+
+  return new Set(accumulator.map(([x, y]) => `${x}-${y}`)).size;
 };
 
 export default robotCleaner;
