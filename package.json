@@ -1,6 +1,6 @@
 {
   "name": "robot-cleaner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Robot Cleaner",
   "scripts": {
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",

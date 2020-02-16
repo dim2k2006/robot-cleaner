@@ -21,3 +21,5 @@ $ make publish
 ```
 
 ## Usage
+
+[![asciicast](https://asciinema.org/a/4Ee3FuYOT4DbFwcH6PwZ7vhT1.svg)](https://asciinema.org/a/4Ee3FuYOT4DbFwcH6PwZ7vhT1)
