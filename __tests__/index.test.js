@@ -7,6 +7,7 @@ describe('robotCleaner', () => {
 
   test('Should clean 1 places.', () => {
     expect(robotCleaner(2, [10, 22], [['W', 0], ['E', 0]])).toBe(1);
+    expect(robotCleaner(1, [10, 22], [['W', 0]])).toBe(1);
   });
 
   test('Should clean 4 places.', () => {
