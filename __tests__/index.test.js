@@ -24,6 +24,8 @@ describe('robotCleaner', () => {
 
   test('Should clean 200 001 places.', () => {
     expect(robotCleaner(2, [0, 0], [['W', 100000], ['S', 100000]])).toBe(200001);
+    expect(robotCleaner(2, [0, 0], [['W', 100000], ['E', 200000]])).toBe(200001);
+    expect(robotCleaner(2, [0, 0], [['W', 100000], ['E', 200000], ['W', 100000]])).toBe(200001);
   });
 
   test('Should clean 10 001 places.', () => {
